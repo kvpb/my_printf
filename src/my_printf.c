@@ -26,7 +26,20 @@
 //// WISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
 */// OF THE POSSIBILITY OF SUCH DAMAGE.
 
+//#include <stdio.h> //	debug code
 
+int my_printf(char* restrict format, ...); //int printf(const char* restrict f, ...);
+
+/*int main()
+{
+	
+	
+
+//	printf("", );
+	my_printf("", );
+	return 0;
+}*/
+//	debug code
 
 /*//	my_printf.c
 ////	My PRINTF
