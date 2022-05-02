@@ -20,28 +20,36 @@ LDFLAGS = -lm
 # In this section, you list the files that are part of the project.
 # If you add/change names of source files, here is where you
 # edit the Makefile.
-SOURCES =	lib/libc/\
-			lib/libc/atoi.c\
-			lib/libc/ctod.c\
-			lib/libc/isalnum.c\
-			lib/libc/isalpha.c\
-			lib/libc/isascii.c\
-			lib/libc/iscntrl.c\
-			lib/libc/isdigit.c\
-			lib/libc/isgraph.c\
-			lib/libc/ishexnumber.c\
-			lib/libc/islower.c\
-			lib/libc/isnumber.c\
-			lib/libc/isprint.c\
-			lib/libc/ispunct.c\
-			lib/libc/isspace.c\
-			lib/libc/isupper.c\
-			lib/libc/isxdigit.c\
-			lib/libc/itoa.c\
-			lib/libc/putc.c\
-			lib/libc/strlen.c\
-			src/\
+SOURCES =	lib/libc/string/strlen.c\
+			lib/libc/stdio/putn.c\
+			lib/libc/stdio/putnbr.c\
+			lib/libc/stdio/putchar.c\
+			lib/libc/stdio/putstr.c\
 			src/my_printf.c
+#SOURCES =	src/my_printf.c
+#SOURCES =	lib/libc/\
+#			lib/libc/atoi.c\
+#			lib/libc/ctod.c\
+#			lib/libc/isalnum.c\
+#			lib/libc/isalpha.c\
+#			lib/libc/isascii.c\
+#			lib/libc/iscntrl.c\
+#			lib/libc/isdigit.c\
+#			lib/libc/isgraph.c\
+#			lib/libc/ishexnumber.c\
+#			lib/libc/islower.c\
+#			lib/libc/isnumber.c\
+#			lib/libc/isprint.c\
+#			lib/libc/ispunct.c\
+#			lib/libc/isspace.c\
+#			lib/libc/isupper.c\
+#			lib/libc/isxdigit.c\
+#			lib/libc/itoa.c\
+#			lib/libc/putc.c\
+#			lib/libc/strlen.c\
+#			lib/libc/strtol.c\
+#			src/\
+#			src/my_printf.c
 OBJECTS = $(SOURCES:.c=.o)
 TARGET = my_printf
 

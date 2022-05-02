@@ -10,7 +10,6 @@
 ////
 *///  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#include "../include/my_printf.h"
 #include <stdarg.h> // va_start, va_arg, va_copy, va_end
 #include <math.h> // pow
 #include <stdlib.h> // malloc
@@ -20,7 +19,240 @@
 #include <string.h> // strlen, memcpy, strcat //	unused code
 #include <stdio.h> // putc, putchar, puts, printf //	unused, debug code
 
+#undef rcsvpow
+#undef strlen
+#undef memcpy
+//#undef malloc //	unused code
+#undef itoa
+#undef uitoa
+//#undef ntoa_b // unused, useless code
+#undef putchr //	useless code
+#undef putstr //	useless code
+#undef putn //	useless code
+#undef putnbr //	useless code
+//#undef cnvrtd //	unused, useless code
+//#undef cnvrto //	unused, useless code
+#undef cnvrtu //	unused, useless code
+//#undef cnvrtx //	unused, useless code
+//#undef cnvrtc //	unused, useless code
+//#undef cnvrts //	unused, useless code
+#undef cnvrtp //	useless code
+//#undef printf //	unused code
 #undef my_printf //	useless code
+
+#define INT_DIGITS 19
+#define UINT_DIGITS 20
+
+int rcsvpow( int b, int n )
+{
+	int x;
+
+	if ( n == 0 )
+		return 1;
+	if ( n % 2 == 0 )
+	{
+		x = rcsvpow( b, n / 2 );
+		return ( x * x );
+	}
+	else
+		return ( b * rcsvpow( b, n - 1 ) );
+} // KVPB's RCSVPOW
+
+size_t strlen(const char* s)
+{
+	const char* p = s;
+
+	while ( *++p );
+	return ( p - s - 1 );
+} // KVPB's STRLEN
+
+void* memcpy(void* restrict d, const void* restrict s, size_t n )
+{
+	while ( n-- )
+	{
+		*(unsigned char*)d = *(unsigned char*)s;
+		d++;
+		s++;
+	}
+	return d;
+} // KVPB's MEMCPY
+
+//void* malloc( size_t s ); // KVPB's MALLOC //	unused code
+
+char* itoa( int i )
+{
+	static char b[ INT_DIGITS + 2 ];
+	char* p = b + INT_DIGITS + 1;
+
+	if ( i >= 0 )
+	{
+		--p;
+		*p = '0' + ( i % 10 );
+		i = i / 10;
+		while ( i != 0 )
+		{
+			--p;
+			*p = '0' + ( i % 10 );
+			i = i / 10;
+		}
+	}
+	else
+	{
+		--p;
+		*p = '0' - ( i % 10 );
+		i = i / 10;
+		while ( i != 0 )
+		{
+			--p;
+			*p = '0' - ( i % 10 );
+			i = i / 10;
+		}
+		--p;
+		*p = '-';
+	}
+	return p;
+} // KVPB's ITOA
+char* uitoa( unsigned int i )
+{
+	static char b[ UINT_DIGITS + 1 ];
+	char* p = b + UINT_DIGITS;
+
+	--p;
+	*p = '0' + ( i % 10 );
+	i = i / 10;
+	while ( i != 0 )
+	{
+		--p;
+		*p = '0' + ( i % 10 );
+		i = i / 10;
+	}
+	return p;
+} // KVPB's UITOA
+
+int putchr(char c)
+{
+	return write(1, &c, 1);
+} // KVPB's PUTCHR
+
+int putstr(const char* s)
+{
+	return write(1, s, strlen(s));
+} // KVPB's PUTSTR
+
+int putn( int n, char* b)
+{
+	int i = 0;
+	int l = strlen( b );
+
+	if (  n  <  0 )
+	{
+		n = -( n );
+		i += write(1, "-", 1);
+	}
+	if (  n  <  l )
+		i += write(1, &b[n], 1);
+	else
+	{
+		i += putn( n / l, b );
+		i += putn( n % l, b );
+	}
+	return i;
+} // KVPB's PUTN
+int uputn( unsigned int n, char* b)
+{
+	int i = 0;
+	unsigned int l = strlen( b );
+
+	if (  n  <  l )
+		i += write(1, &b[n], 1);
+	else
+	{
+		i += uputn( n / l, b );
+		i += uputn( n % l, b );
+	}
+	return i;
+} // KVPB's UPUTN
+int ullputn( unsigned long long n, char* b)
+{
+	int i = 0;
+	unsigned long long l = strlen( b );
+
+	if (  n  <  l )
+		i += write(1, &b[n], 1);
+	else
+	{
+		i += ullputn( n / l, b );
+		i += ullputn( n % l, b );
+	}
+	return i;
+} // KVPB's ULLPUTN
+int putnbr( int n )
+{
+	return putn( n, "0123456789");
+} // KVPB's PUTNBR
+int uputnbr( int n )
+{
+	return uputn( n, "0123456789");
+} // KVPB's UPUTNBR
+int ullputnbr( int n )
+{
+	return uputn( n, "0123456789");
+} // KVPB's ULLPUTNBR
+
+//const signed int cnvrtd(const int i); // KVPB's CNVRTD //	unused
+//const unsigned int cnvrto(const int i); // KVPB's CNVRTO //	unused
+unsigned int cnvrtu(const int i) //const unsigned int cnvrtu(const int i)
+{
+	unsigned int u;
+	const int n = sizeof(int) * CHAR_BIT / 8;
+	const int M = rcsvpow( 2, n );
+
+	if ( i < 0 )
+		u = M - i;
+	else
+		u = (unsigned int) i;
+	return (const unsigned int) u;
+} // KVPB's CNVRTU
+//const unsigned int cnvrtx(const int i); // KVPB's CNVRTX //	unused
+unsigned char cnvrtc(const int i); //const unsigned char cnvrtc(const int i);
+//const char* cnvrts(const char* s); // KVPB's CNVRTS //	useless, unused
+const char* cnvrtp(void* p)
+{
+	//void* p = &a;
+	size_t l = sizeof(p);
+	unsigned char B[l];
+	unsigned char H;
+	unsigned char L;
+	char T[2];
+	int i;
+	char* s = malloc( l );
+
+	memcpy(B, &p, l );
+	strcat(s, "0x");
+	i = sizeof(p) - 1;
+	while ( i >= 0 )
+	{
+		H = ( B[i] >> 4 ) & 0xF;
+		L =   B[i]        & 0xF;
+		T[0] = H;
+		T[1] = L;
+
+		if ( H < 10 )
+			T[0] = T[0] + '0';
+		else
+			T[0] = T[0] + 'a' - 10;
+		strncat(s, &T[0], 1);
+		if ( L < 10 )
+			T[1] = T[1] + '0';
+		else
+			T[1] = T[1] + 'a' - 10;
+		strncat(s, &T[1], 1);
+		i--;
+	}
+	return s;
+} // KVPB's CNVRTP
+
+//int printf(const char* restrict f, ...); // KVPB's PRINTF //	unused code
 
 /*int my_printf(char* restrict format, ...) //int printf(const char* restrict f, ...);
 {
@@ -214,7 +446,7 @@ int my_printf(char* restrict format, ...)
 	return i;
 } // What a mess. At least, it works. However, it looks like shit. I picked up my 6-month-old code after all. I hadn't planned to do it this way at all. I had to rush. Sometimes, you've got to do it quick 'n' dirty.
 
-/*int main() //( int c_a, char* v_a[] )
+int main() //( int c_a, char* v_a[] )
 {
 			 char* a = "";
 	  signed  int  d = -2147483647; //-2147483648; //=  INT_MIN;
@@ -226,24 +458,24 @@ int my_printf(char* restrict format, ...)
 	//char* a = v_a[0];
 			 void* p = &a; //void* p = (void*) &main(); //&v_a[0]; //&a;
 
-	printf("%d\n",    printf("   PRINTF:\td:\t%d\n", d));
+	printf("%d\n",	printf("   PRINTF:\td:\t%d\n", d));
 	printf("%d\n", my_printf("My PRINTF:\td:\t%d\n", d));
-	printf("%d\n",    printf("   PRINTF:\to:\t%o\n", o));
+	printf("%d\n",	printf("   PRINTF:\to:\t%o\n", o));
 	printf("%d\n", my_printf("My PRINTF:\to:\t%o\n", o));
-	printf("%d\n",    printf("   PRINTF:\tu:\t%u\n", u));
+	printf("%d\n",	printf("   PRINTF:\tu:\t%u\n", u));
 	printf("%d\n", my_printf("My PRINTF:\tu:\t%u\n", u));
-	printf("%d\n",    printf("   PRINTF:\tx:\t%x\n", x));
+	printf("%d\n",	printf("   PRINTF:\tx:\t%x\n", x));
 	printf("%d\n", my_printf("My PRINTF:\tx:\t%x\n", x));
-	printf("%d\n",    printf("   PRINTF:\tc:\t%c\n", c));
+	printf("%d\n",	printf("   PRINTF:\tc:\t%c\n", c));
 	printf("%d\n", my_printf("My PRINTF:\tc:\t%c\n", c));
-	printf("%d\n",    printf("   PRINTF:\ts:\t%s\n", s));
+	printf("%d\n",	printf("   PRINTF:\ts:\t%s\n", s));
 	printf("%d\n", my_printf("My PRINTF:\ts:\t%s\n", s));
-	printf("%d\n",    printf("   PRINTF:\tp:\t%p\n", p));
+	printf("%d\n",	printf("   PRINTF:\tp:\t%p\n", p));
 	printf("%d\n", my_printf("My PRINTF:\tp:\t%p\n", p));
-	//printf("%d\n",    printf("%s\n", (char*) NULL));
-	//printf("%d\n", my_printf("%s\n", (char*) NULL));
+	printf("%d\n",	printf("%s\n", (char*) NULL));
+	printf("%d\n", my_printf("%s\n", (char*) NULL));
 	return 0;
-}*/ //	debug code
+} //	debug code
 
 /*//	my_printf.c
 ////	My PRINTF

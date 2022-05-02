@@ -29,12 +29,29 @@
 #ifndef MY_PRINTF_H
 # define MY_PRINTF_H
 
-# include <unistd.h> // write
-# include <stdlib.h> // malloc, free
+# include "../lib/libc/include/libc.h"
 # include <stdarg.h> // va_start, va_arg, va_copy, va_end
-# include <stdio.h> // va_start, va_arg, va_copy, va_end
-# include "libc.h"
+# include <stddef.h> // size_t
+# include <string.h> // strlen, memcpy, strcat //	unused code
+# include <limits.h> // CHAR_BIT, INT_MIN, INT_MAX //	unused code
+# include <math.h> // pow
+# include <stdlib.h> // malloc
+# include <unistd.h> // write
+# include <stdio.h> // putc, putchar, puts, printf //	unused, debug code
+//# include <unistd.h> // write
+//# include <stdlib.h> // malloc, free
+//# include <stdarg.h> // va_start, va_arg, va_copy, va_end
+//# include <stdio.h> // va_start, va_arg, va_copy, va_end
+//# include "libc.h"
 
+//signed int cnvrtd(int i);
+//unsigned int cnvrto(int i);
+//unsigned int cnvrtu(int i);
+//unsigned int cnvrtx(int i);
+//unsigned char cnvrtc(int i);
+//char* cnvrts(char* s);
+//char* cnvrtp(void* p);
+//int printf(const char* restrict f, ...);
 int	my_printf(char * restrict format, ...);
 
 #endif

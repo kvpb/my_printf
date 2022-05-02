@@ -69,7 +69,7 @@ ascii()
 alias s='source';
 alias g='git';
 alias o='[ -e ./${bin} ] && rm ${bin}; gcc -o ${bin} ${src}.c && ./${bin}';
-alias k='[ -e ./0 ] && rm 0; gcc -o 0 *.c && ./0; rm 0;';
+alias k='[ -e ./0 ] && rm 0; gcc -o 0 *.c && ./0; rm 0;'; #[ -e ./0 ] && rm 0; gcc -o 0 my_printf.c && ./0; rm 0;
 alias d='cd';
 alias ls='ls -a --color=auto';
 alias l='ls';
